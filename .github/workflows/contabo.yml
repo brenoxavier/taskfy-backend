@@ -29,6 +29,6 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         rm: true
-        source: "-r ./frontend/dist"
+        source: "frontend/dist"
         target: "./taskfy-frontend"
         
