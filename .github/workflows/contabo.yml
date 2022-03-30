@@ -5,7 +5,8 @@ on:
     branches: [ main ]
 
 jobs:
-  web-deploy:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
     - name: Copying Files
@@ -19,7 +20,7 @@ jobs:
       
     - name: Build Frontend
       working-directory: ./frontend
-      run: npm run build
+      run: npm ci && npm run build
         
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
