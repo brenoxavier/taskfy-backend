@@ -32,6 +32,14 @@ jobs:
         strip_components: 3
         source: "./frontend/dist/."
         target: "./taskfy-frontend"
+        
+    - name: Restarting Portainer Stack
+      uses: satak/webrequest-action@master
+      with:
+        url: ${{ secrets.PORTAINER_HOST }}/api/auth
+        method: POST
+        payload: '{"username":"${{ secrets.PORTAINER_USERNAME }}","password":"${{ secrets.PORTAINER_PASSWORD }}"}'
+        
   sonarqube:
     name: Sonarqube
     runs-on: ubuntu-latest
