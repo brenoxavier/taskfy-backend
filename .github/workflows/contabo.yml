@@ -44,6 +44,7 @@ jobs:
     - name: Saving Portainer Token
       run: |
         $PORTAINER_TOKEN = '${{ steps.portainer.outputs.output }}' | jq -r '.jwt'
+        echo $PORTAINER_TOKEN
 
     - name: Restarting Portainer Stack
       uses: satak/webrequest-action@master
