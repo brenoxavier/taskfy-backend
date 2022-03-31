@@ -43,7 +43,7 @@ jobs:
         
     - name: Saving Portainer Token
       run: |
-        $PORTAINER_TOKEN = '${{ steps.portainer.outputs.output }}' | jq -r '.jwt'
+        $PORTAINER_TOKEN = '${{ steps.portainer.outputs.output.jwt }}'
         echo $PORTAINER_TOKEN
 
     - name: Restarting Portainer Stack
