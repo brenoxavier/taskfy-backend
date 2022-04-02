@@ -11,6 +11,10 @@ jobs:
     steps:
     - name: Copying Files
       uses: actions/checkout@v3
+      
+    - name: Installing Backend Dependencies
+      working-directory: ./backend
+      run: composer install
     
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -30,8 +34,8 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         rm: true
         strip_components: 3
-        source: "./frontend/dist/."
-        target: "./taskfy-frontend"
+        source: "./backend/.,./frontend/dist/."
+        target: "./taskfy-backend,./taskfy-frontend"
         
     - name: Authenticating in Portainer
       id: portainer
