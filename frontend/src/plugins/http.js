@@ -4,7 +4,7 @@ import vueAxios from 'vue-axios'
 import store from './store'
 
 const http = axios.create({
-  baseURL: 'http://localhost:8080/api'
+  baseURL: process.env.VUE_APP_API_URL
 })
 
 Vue.use(vueAxios, http)
