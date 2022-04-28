@@ -59,27 +59,27 @@ jobs:
         script: chmod o-rwx /var/docker/volumes/taskfy/backend
           
         
-   # - name: Authenticating in Portainer
-     # id: portainer
-     # uses: satak/webrequest-action@master
-     # with:
-     #   url: ${{ secrets.PORTAINER_HOST }}/api/auth
-    #    method: POST
-    #    payload: '{"username":"${{ secrets.PORTAINER_USERNAME }}","password":"${{ secrets.PORTAINER_PASSWORD }}"}'
+    - name: Authenticating in Portainer
+      id: portainer
+      uses: satak/webrequest-action@master
+      with:
+        url: ${{ secrets.PORTAINER_HOST }}/api/auth
+        method: POST
+        payload: '{"username":"${{ secrets.PORTAINER_USERNAME }}","password":"${{ secrets.PORTAINER_PASSWORD }}"}'
 
-   # - name: Stopping Portainer Stack
-    #  uses: satak/webrequest-action@master
-    #  with:
-       # url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/stop
-      #  method: POST
-     #   headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
+    - name: Stopping Portainer Stack
+      uses: satak/webrequest-action@master
+      with:
+        url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/stop
+        method: POST
+        headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
         
- #   - name: Starting Portainer Stack
-  #    uses: satak/webrequest-action@master
-   #   with:
-    #    url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/start
-     #   method: POST
-      #  headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
+    - name: Starting Portainer Stack
+      uses: satak/webrequest-action@master
+      with:
+        url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/start
+        method: POST
+        headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
         
   #sonarqube:
    # name: Sonarqube
