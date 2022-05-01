@@ -1,11 +1,17 @@
 FROM nginx:1.21
 
+ENV RODA=rodinha
+
 USER root
+
+ENV RODA=rodovia
 
 COPY ./deploy/nginx/templates/default.conf.template /etc/nginx/nginx.conf
 
 RUN apt-get update && apt-get install -y \
     php7.4-fpm \
+    php-curl \
+    php-xml \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -26,10 +32,10 @@ COPY . /var/www/php
 
 WORKDIR /var/www/php
 
-# RUN composer install
+RUN composer install
 
 EXPOSE 8080
 
-RUN chmod +x ./deploy/start.sh
+RUN chmod -R 777 .
 
 CMD ["./deploy/start.sh"]
