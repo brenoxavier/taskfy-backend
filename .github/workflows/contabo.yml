@@ -47,7 +47,7 @@ jobs:
        # rm: true
        # strip_components: 3
        # source: './frontend/dist'
-       # target: './taskfy-frontend'
+       # target: './taskfy-frontend' 
         
     - name: Setting Permissions
       uses: appleboy/ssh-action@master
