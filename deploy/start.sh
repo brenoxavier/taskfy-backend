@@ -1,5 +1,5 @@
 #!/bin/bash
 
-/etc/init.d/php7.4-fpm start -R
+chmod -R 777 /var/www/php
 
 nginx -g "daemon off;"
