@@ -49,16 +49,16 @@ jobs:
        # source: './frontend/dist'
        # target: './taskfy-frontend' 
         
-#    - name: Setting Permissions
-#      uses: appleboy/ssh-action@master
-#      with:
-#        host: ${{ secrets.SSH_HOST }}
-#        username: ${{ secrets.SSH_USERNAME }}
-#        password: ${{ secrets.SSH_PASSWORD }}
-#        port: ${{ secrets.SSH_PORT }}
-#        script: |
-#          cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
-#          chmod o-rwx /var/docker/volumes/taskfy/backend
+    - name: Setting Up Environment
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
+          docker build -t /var/docker/volumes/taskfy/backend .
           
         
 #    - name: Authenticating in Portainer
