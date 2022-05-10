@@ -49,40 +49,40 @@ jobs:
        # source: './frontend/dist'
        # target: './taskfy-frontend' 
         
-    - name: Setting Permissions
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
-          chmod o-rwx /var/docker/volumes/taskfy/backend
+#    - name: Setting Permissions
+#      uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ secrets.SSH_HOST }}
+#        username: ${{ secrets.SSH_USERNAME }}
+#        password: ${{ secrets.SSH_PASSWORD }}
+#        port: ${{ secrets.SSH_PORT }}
+#        script: |
+#          cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
+#          chmod o-rwx /var/docker/volumes/taskfy/backend
           
         
-    - name: Authenticating in Portainer
-      id: portainer
-      uses: satak/webrequest-action@master
-      with:
-        url: ${{ secrets.PORTAINER_HOST }}/api/auth
-        method: POST
-        payload: '{"username":"${{ secrets.PORTAINER_USERNAME }}","password":"${{ secrets.PORTAINER_PASSWORD }}"}'
+#    - name: Authenticating in Portainer
+#      id: portainer
+#      uses: satak/webrequest-action@master
+#      with:
+#        url: ${{ secrets.PORTAINER_HOST }}/api/auth
+#        method: POST
+#        payload: '{"username":"${{ secrets.PORTAINER_USERNAME }}","password":"${{ secrets.PORTAINER_PASSWORD }}"}'
 
-    - name: Stopping Portainer Stack
-      uses: satak/webrequest-action@master
-      with:
-        url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/stop
-        method: POST
-        headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
+#    - name: Stopping Portainer Stack
+#      uses: satak/webrequest-action@master
+#      with:
+#        url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/stop
+#        method: POST
+#        headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
         
-    - name: Starting Portainer Stack
-      uses: satak/webrequest-action@master
-      with:
-        url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/start
-        method: POST
-        headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
-        
+#    - name: Starting Portainer Stack
+#      uses: satak/webrequest-action@master
+#      with:
+#        url: ${{ secrets.PORTAINER_HOST }}/api/stacks/${{ secrets.PORTAINER_STACK_ID }}/start
+#        method: POST
+#        headers: '{"Authorization": "Bearer ${{ fromJSON(steps.portainer.outputs.output).data.jwt }}"}'
+
   sonarqube:
     name: Sonarqube
     runs-on: ubuntu-latest
