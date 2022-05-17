@@ -58,7 +58,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
-          docker build -t taskfy /var/docker/volumes/taskfy/backend
+          chmod -R u+rwx, g+rwx /var/docker/volumes/taskfy/backend
           
         
 #    - name: Authenticating in Portainer
