@@ -58,10 +58,8 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
-          chmod -R ug+rwx /var/docker/volumes/taskfy/backend
-          chown -R root /var/docker/volumes/taskfy/backend
+          chmod -R a+rwx /var/docker/volumes/taskfy/backend
           
-        
 #    - name: Authenticating in Portainer
 #      id: portainer
 #      uses: satak/webrequest-action@master
