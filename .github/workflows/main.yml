@@ -59,7 +59,7 @@ jobs:
         script: |
           cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
           chmod -R a+rwx /var/docker/volumes/taskfy/backend
-          docker exec taskfy_backend php /var/www/php artisan migrate
+          docker exec taskfy_backend yes | php /var/www/php/artisan migrate
           
     - name: Authenticating in Portainer
       id: portainer
