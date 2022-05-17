@@ -59,6 +59,7 @@ jobs:
         script: |
           cp /var/docker/volumes/taskfy/backend.env /var/docker/volumes/taskfy/backend/.env
           chmod -R ug+rwx /var/docker/volumes/taskfy/backend
+          chown -R root /var/docker/volumes/taskfy/backend
           
         
 #    - name: Authenticating in Portainer
