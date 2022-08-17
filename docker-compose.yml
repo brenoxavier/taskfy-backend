@@ -1,22 +1,29 @@
 version: '3.7'
 
 services:
-  database:
-    image: postgres:13.4
-    container_name: ponto_database
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=newm
-      - POSTGRES_PASSWORD=newm
-      - POSTGRES_DB=ponto
+    database:
+        image: postgres:13.4
+        container_name: ponto_database
+        ports:
+            - '5432:5432'
+        volumes:
+            - ${PWD}/docker/volumes/postgres:/var/lib/postgresql/data:delegated
 
-  app:
-    image: ambientum/php:7.3-nginx
-    container_name: ponto_newm
-    volumes:
-      - .:/var/www/app
-    ports:
-      - "8080:8080"
-    links:
-      - database
+        environment:
+            - POSTGRES_USER=newm
+            - POSTGRES_PASSWORD=newm
+            - POSTGRES_DB=ponto
+
+    app:
+        image: ambientum/php:7.3-nginx
+        container_name: ponto_newm
+        volumes:
+            - .:/var/www/app
+        ports:
+            - '8080:8080'
+        environment:
+            - XDEBUG_ENABLED=true
+        extra_hosts:
+            - host.docker.internal:192.168.223.41
+        links:
+            - database
