@@ -18,16 +18,12 @@ class EntradaTempoController extends Controller
             'inicio' => ['date', 'required'],
             'fim' => ['date', 'required'],
             'motivo' => ['string', 'min:5', 'max:255', 'required'],
+            'justificada' => ['boolean', 'required']
         ]);
 
-        $usuario = Usuario::find($nova_entrada['id_usuario']);
-
-        if ($usuario)
-        {
-            return Entrada::create($nova_entrada);
-        }
-
-        abort(404);
+        // Valida o id enviado, se não achar, retorna um 404
+        Usuario::findOrFail($nova_entrada['id_usuario']);
+        return Entrada::create($nova_entrada);
     }
 
     public function editar(Request $request, $id_entrada)

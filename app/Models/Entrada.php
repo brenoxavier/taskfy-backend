@@ -14,6 +14,7 @@ class Entrada extends Model
         'id_entrada',
         'inicio',
         'fim',
-        'motivo'
+        'motivo',
+        'justificada'
     ];
 }
