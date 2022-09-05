@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => getenv('MAIL_MAILER') ?? env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => getenv('MAIL_HOST') ?? env('MAIL_HOST', 'smtp.mailgun.org'),
+            'port' => getenv('MAIL_PORT') ?? env('MAIL_PORT', 587),
+            'encryption' => getenv('MAIL_ENCRYPTION') ?? env('MAIL_ENCRYPTION', 'tls'),
+            'username' => getenv('MAIL_USERNAME') ?? env('MAIL_USERNAME'),
+            'password' => getenv('MAIL_PASSWORD') ?? env('MAIL_PASSWORD'),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -64,7 +64,7 @@ return [
 
         'log' => [
             'transport' => 'log',
-            'channel' => env('MAIL_LOG_CHANNEL'),
+            'channel' => getenv('MAIL_LOG_CHANNEL') ?? env('MAIL_LOG_CHANNEL'),
         ],
 
         'array' => [
@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => getenv('MAIL_FROM_ADDRESS') ?? env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => getenv('MAIL_FROM_NAME') ?? env('MAIL_FROM_NAME', 'Example'),
     ],
 
     /*

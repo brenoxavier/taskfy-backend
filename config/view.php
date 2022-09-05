@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'compiled' => env(
+    'compiled' => getenv('VIEW_COMPILED_PATH') ?? env(
         'VIEW_COMPILED_PATH',
         realpath(storage_path('framework/views'))
     ),

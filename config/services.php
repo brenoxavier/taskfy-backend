@@ -15,19 +15,19 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
-        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'domain' => getenv('MAILGUN_DOMAIN') ?? env('MAILGUN_DOMAIN'),
+        'secret' => getenv('MAILGUN_SECRET') ?? env('MAILGUN_SECRET'),
+        'endpoint' => getenv('MAILGUN_ENDPOINT') ?? env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
 
     'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
+        'token' => getenv('POSTMARK_TOKEN') ?? env('POSTMARK_TOKEN'),
     ],
 
     'ses' => [
-        'key' => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+        'key' => getenv('AWS_ACCESS_KEY_ID') ?? env('AWS_ACCESS_KEY_ID'),
+        'secret' => getenv('AWS_SECRET_ACCESS_KEY') ?? env('AWS_SECRET_ACCESS_KEY'),
+        'region' => getenv('AWS_DEFAULT_REGION') ?? env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
 ];
