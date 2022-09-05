@@ -13,23 +13,20 @@ class ClockifyController extends Controller
             'X-Api-Key' => config('clockify.api_key')
         ])->get(config('clockify.api_url') . '/workspaces/' . config('clockify.workspace_id') . '/users');
 
-        if ($resposta->successful())
-        {
+        if ($resposta->successful()) {
             $usuarios_clockify = [];
 
-            foreach ($resposta->json() as $usuario_clockify)
-            {
+            foreach ($resposta->json() as $usuario_clockify) {
                 $usuario = Usuario::where('id_clockify', $usuario_clockify['id'])
                     ->first();
 
-                if (!$usuario)
-                {
-                    array_push($usuarios_clockify, [
+                if (!$usuario) {
+                    $usuarios_clockify[] = [
                         'id_clockify' => $usuario_clockify['id'],
                         'nome' => $usuario_clockify['name'],
                         'email' => $usuario_clockify['email'],
                         'foto_perfil' => $usuario_clockify['profilePicture']
-                    ]);
+                    ];
                 }
             }
 
