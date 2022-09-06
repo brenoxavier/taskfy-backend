@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => getenv('BROADCAST_DRIVER') ?? env('BROADCAST_DRIVER', 'null'),
+    'default' => env('BROADCAST_DRIVER', 'null'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,18 +32,18 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => getenv('PUSHER_APP_KEY') ?? env('PUSHER_APP_KEY'),
-            'secret' => getenv('PUSHER_APP_SECRET') ?? env('PUSHER_APP_SECRET'),
-            'app_id' => getenv('PUSHER_APP_ID') ?? env('PUSHER_APP_ID'),
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'cluster' => getenv('PUSHER_APP_CLUSTER') ?? env('PUSHER_APP_CLUSTER'),
+                'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
             ],
         ],
 
         'ably' => [
             'driver' => 'ably',
-            'key' => getenv('ABLY_KEY') ?? env('ABLY_KEY'),
+            'key' => env('ABLY_KEY'),
         ],
 
         'redis' => [
