@@ -146,6 +146,7 @@ class EntradaTempoController extends Controller
                         $relatorio['usuario'] = $usuario;
 
                         return $pdf->loadView('relatorio', $relatorio)
+                            ->setPaper('a4', 'landscape')
                             ->download('relatorio.pdf');
                     }
                 }
