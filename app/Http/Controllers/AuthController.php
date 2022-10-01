@@ -19,10 +19,8 @@ class AuthController extends Controller
         $usuario = Usuario::where('email', $usuario_informado['email'])
             ->first();
 
-        if ($usuario)
-        {
-            if (Hash::check($usuario_informado['senha'], $usuario['senha']))
-            {
+        if ($usuario) {
+            if (Hash::check($usuario_informado['senha'], $usuario['senha'])) {
                 $usuario->tokens()->delete();
                 $token = $usuario->createToken('Auth');
 

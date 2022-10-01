@@ -21,26 +21,21 @@ class Utilitarios
             ->where('data', '<=', $fim_mes)
             ->get();
 
-        for ($i = 0; $i < $fim_mes->day; $i++)
-        {
+        for ($i = 0; $i < $fim_mes->day; $i++) {
             $dia = [
                 'data' => $dia_mes->toISOString(),
                 'horas_uteis' => 0
             ];
 
-            foreach ($feriados as $feriado)
-            {
-                if (Carbon::create($feriado['data'])->startOfDay()->equalTo($dia_mes))
-                {
+            foreach ($feriados as $feriado) {
+                if (Carbon::create($feriado['data'])->startOfDay()->equalTo($dia_mes)) {
                     $dia['feriado'] = $feriado['descricao'];
                     break;
                 }
             }
 
-            if (!isset($dia['feriado']))
-            {
-                if (($dia_mes->dayName !== 'sábado' || $usuario['trabalha_sabado']) && $dia_mes->dayName !== 'domingo')
-                {
+            if (!isset($dia['feriado'])) {
+                if (($dia_mes->dayName !== 'sábado' || $usuario['trabalha_sabado']) && $dia_mes->dayName !== 'domingo') {
                     $horas_uteis += $usuario['carga_horaria'];
                     $dia['horas_uteis'] = $usuario['carga_horaria'];
                 }
@@ -61,16 +56,13 @@ class Utilitarios
      */
     public static function calcularHorasTrabalhadas(Usuario $usuario, Carbon $data_inicio, Carbon $data_fim = null): array
     {
-        if (!$data_fim)
-        {
+        if (!$data_fim) {
             $entradas_de_tempo = $usuario->timeEntries()
                 ->where('inicio', '>=', $data_inicio)
                 ->whereNotNull('fim')
                 ->orderByDesc('inicio')
                 ->get();
-        }
-        else
-        {
+        } else {
             $entradas_de_tempo = $usuario->timeEntries()
                 ->where('inicio', '>=', $data_inicio)
                 ->where('fim', '<=', $data_fim)
@@ -94,16 +86,21 @@ class Utilitarios
                 'minutos' => 0,
                 'segundos' => 0
             ],
+            'horas_justificadas' => [
+                'horas' => 0,
+                'minutos' => 0,
+                'segundos' => 0
+            ],
             'dias' => []
         ];
 
-        foreach ($entradas_de_tempo as $entrada_de_tempo)
-        {
+        foreach ($entradas_de_tempo as $entrada_de_tempo) {
             $entrada = [
                 'id' => $entrada_de_tempo['id'],
                 'inicio' => $entrada_de_tempo['inicio'],
                 'fim' => $entrada_de_tempo['fim'],
                 'motivo' => $entrada_de_tempo['motivo'],
+                'justificada' => $entrada_de_tempo['justificada'],
                 'horas_diurnas' => [
                     'horas' => 0,
                     'minutos' => 0,
@@ -118,14 +115,18 @@ class Utilitarios
                     'horas' => 0,
                     'minutos' => 0,
                     'segundos' => 0
-                ]
+                ],
+                'horas_justificadas' => [
+                    'horas' => 0,
+                    'minutos' => 0,
+                    'segundos' => 0
+                ],
             ];
 
             $inicio = Carbon::create($entrada['inicio']);
             $fim = Carbon::create($entrada['fim'] ?? Carbon::now());
 
-            if (!isset($tempo['dias'][$inicio->day]))
-            {
+            if (!isset($tempo['dias'][$inicio->day])) {
                 $tempo['dias'][$inicio->day] = [
                     'horas_diurnas' => [
                         'horas' => 0,
@@ -142,6 +143,11 @@ class Utilitarios
                         'minutos' => 0,
                         'segundos' => 0
                     ],
+                    'horas_justificadas' => [
+                        'horas' => 0,
+                        'minutos' => 0,
+                        'segundos' => 0
+                    ],
                     'entradas_de_tempo' => []
                 ];
             }
@@ -149,55 +155,72 @@ class Utilitarios
             $horas_trabalhadas = $inicio->diff($fim);
             $horas_noturnas = Utilitarios::calcularHorasNoturnas($inicio, $fim);
 
-            $entrada['horas_totais']['horas'] = $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
-            $entrada['horas_totais']['minutos'] = $horas_trabalhadas->i;
-            $entrada['horas_totais']['segundos'] = $horas_trabalhadas->s;
+            if ($entrada_de_tempo['justificada']) {
+                $entrada['horas_justificadas']['horas'] = $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $entrada['horas_justificadas']['minutos'] = $horas_trabalhadas->i;
+                $entrada['horas_justificadas']['segundos'] = $horas_trabalhadas->s;
 
-            $tempo['dias'][$inicio->day]['horas_totais']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
-            $tempo['dias'][$inicio->day]['horas_totais']['minutos'] += $horas_trabalhadas->i;
-            $tempo['dias'][$inicio->day]['horas_totais']['segundos'] += $horas_trabalhadas->s;
+                $tempo['dias'][$inicio->day]['horas_justificadas']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $tempo['dias'][$inicio->day]['horas_justificadas']['minutos'] += $horas_trabalhadas->i;
+                $tempo['dias'][$inicio->day]['horas_justificadas']['segundos'] += $horas_trabalhadas->s;
 
-            $tempo['horas_totais']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
-            $tempo['horas_totais']['minutos'] += $horas_trabalhadas->i;
-            $tempo['horas_totais']['segundos'] += $horas_trabalhadas->s;
+                $tempo['horas_justificadas']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $tempo['horas_justificadas']['minutos'] += $horas_trabalhadas->i;
+                $tempo['horas_justificadas']['segundos'] += $horas_trabalhadas->s;
 
-            $horas_trabalhadas->h -= $horas_noturnas->h;
-            $horas_trabalhadas->i -= $horas_noturnas->i;
-            $horas_trabalhadas->s -= $horas_noturnas->s;
+                $entrada['horas_justificadas'] = Utilitarios::limitarHorario($entrada['horas_justificadas']);
+                $tempo['dias'][$inicio->day]['horas_justificadas'] = Utilitarios::limitarHorario($tempo['dias'][$inicio->day]['horas_justificadas']);
+            } else {
+                $entrada['horas_totais']['horas'] = $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $entrada['horas_totais']['minutos'] = $horas_trabalhadas->i;
+                $entrada['horas_totais']['segundos'] = $horas_trabalhadas->s;
 
-            $entrada['horas_diurnas']['horas'] = $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
-            $entrada['horas_diurnas']['minutos'] = $horas_trabalhadas->i;
-            $entrada['horas_diurnas']['segundos'] = $horas_trabalhadas->s;
+                $tempo['dias'][$inicio->day]['horas_totais']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $tempo['dias'][$inicio->day]['horas_totais']['minutos'] += $horas_trabalhadas->i;
+                $tempo['dias'][$inicio->day]['horas_totais']['segundos'] += $horas_trabalhadas->s;
 
-            $tempo['dias'][$inicio->day]['horas_diurnas']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
-            $tempo['dias'][$inicio->day]['horas_diurnas']['minutos'] += $horas_trabalhadas->i;
-            $tempo['dias'][$inicio->day]['horas_diurnas']['segundos'] += $horas_trabalhadas->s;
+                $tempo['horas_totais']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $tempo['horas_totais']['minutos'] += $horas_trabalhadas->i;
+                $tempo['horas_totais']['segundos'] += $horas_trabalhadas->s;
 
-            $tempo['horas_diurnas']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
-            $tempo['horas_diurnas']['minutos'] += $horas_trabalhadas->i;
-            $tempo['horas_diurnas']['segundos'] += $horas_trabalhadas->s;
+                $horas_trabalhadas->h -= $horas_noturnas->h;
+                $horas_trabalhadas->i -= $horas_noturnas->i;
+                $horas_trabalhadas->s -= $horas_noturnas->s;
 
-            $entrada['horas_noturnas']['horas'] = $horas_noturnas->h + ($horas_noturnas->d * 24);
-            $entrada['horas_noturnas']['minutos'] = $horas_noturnas->i;
-            $entrada['horas_noturnas']['segundos'] = $horas_noturnas->s;
+                $entrada['horas_diurnas']['horas'] = $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $entrada['horas_diurnas']['minutos'] = $horas_trabalhadas->i;
+                $entrada['horas_diurnas']['segundos'] = $horas_trabalhadas->s;
 
-            $tempo['dias'][$inicio->day]['horas_noturnas']['horas'] += $horas_noturnas->h + ($horas_noturnas->d * 24);
-            $tempo['dias'][$inicio->day]['horas_noturnas']['minutos'] += $horas_noturnas->i;
-            $tempo['dias'][$inicio->day]['horas_noturnas']['segundos'] += $horas_noturnas->s;
+                $tempo['dias'][$inicio->day]['horas_diurnas']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $tempo['dias'][$inicio->day]['horas_diurnas']['minutos'] += $horas_trabalhadas->i;
+                $tempo['dias'][$inicio->day]['horas_diurnas']['segundos'] += $horas_trabalhadas->s;
 
-            $tempo['horas_noturnas']['horas'] += $horas_noturnas->h + ($horas_noturnas->d * 24);
-            $tempo['horas_noturnas']['minutos'] += $horas_noturnas->i;
-            $tempo['horas_noturnas']['segundos'] += $horas_noturnas->s;
+                $tempo['horas_diurnas']['horas'] += $horas_trabalhadas->h + ($horas_trabalhadas->d * 24);
+                $tempo['horas_diurnas']['minutos'] += $horas_trabalhadas->i;
+                $tempo['horas_diurnas']['segundos'] += $horas_trabalhadas->s;
 
-            $entrada['horas_totais'] = Utilitarios::limitarHorario($entrada['horas_totais']);
-            $entrada['horas_diurnas'] = Utilitarios::limitarHorario($entrada['horas_diurnas']);
-            $entrada['horas_noturnas'] = Utilitarios::limitarHorario($entrada['horas_noturnas']);
+                $entrada['horas_noturnas']['horas'] = $horas_noturnas->h + ($horas_noturnas->d * 24);
+                $entrada['horas_noturnas']['minutos'] = $horas_noturnas->i;
+                $entrada['horas_noturnas']['segundos'] = $horas_noturnas->s;
 
-            $tempo['dias'][$inicio->day]['horas_totais'] = Utilitarios::limitarHorario($tempo['dias'][$inicio->day]['horas_totais']);
-            $tempo['dias'][$inicio->day]['horas_diurnas'] = Utilitarios::limitarHorario($tempo['dias'][$inicio->day]['horas_diurnas']);
-            $tempo['dias'][$inicio->day]['horas_noturnas'] = Utilitarios::limitarHorario($tempo['dias'][$inicio->day]['horas_noturnas']);
+                $tempo['dias'][$inicio->day]['horas_noturnas']['horas'] += $horas_noturnas->h + ($horas_noturnas->d * 24);
+                $tempo['dias'][$inicio->day]['horas_noturnas']['minutos'] += $horas_noturnas->i;
+                $tempo['dias'][$inicio->day]['horas_noturnas']['segundos'] += $horas_noturnas->s;
 
-            array_push($tempo['dias'][$inicio->day]['entradas_de_tempo'], $entrada);
+                $tempo['horas_noturnas']['horas'] += $horas_noturnas->h + ($horas_noturnas->d * 24);
+                $tempo['horas_noturnas']['minutos'] += $horas_noturnas->i;
+                $tempo['horas_noturnas']['segundos'] += $horas_noturnas->s;
+
+                $entrada['horas_totais'] = Utilitarios::limitarHorario($entrada['horas_totais']);
+                $entrada['horas_diurnas'] = Utilitarios::limitarHorario($entrada['horas_diurnas']);
+                $entrada['horas_noturnas'] = Utilitarios::limitarHorario($entrada['horas_noturnas']);
+
+                $tempo['dias'][$inicio->day]['horas_totais'] = Utilitarios::limitarHorario($tempo['dias'][$inicio->day]['horas_totais']);
+                $tempo['dias'][$inicio->day]['horas_diurnas'] = Utilitarios::limitarHorario($tempo['dias'][$inicio->day]['horas_diurnas']);
+                $tempo['dias'][$inicio->day]['horas_noturnas'] = Utilitarios::limitarHorario($tempo['dias'][$inicio->day]['horas_noturnas']);
+            }
+
+            $tempo['dias'][$inicio->day]['entradas_de_tempo'][] = $entrada;
         }
 
         $tempo['horas_totais'] = Utilitarios::limitarHorario($tempo['horas_totais']);
@@ -234,17 +257,14 @@ class Utilitarios
         return CarbonInterval::create(0);
     }
 
-    // Evita que os minutos e segundos passem de 60
     public static function limitarHorario(array $horario): array
     {
-        while ($horario['segundos'] >= 60)
-        {
+        while ($horario['segundos'] >= 60) {
             $horario['segundos'] = $horario['segundos'] - 60;
             $horario['minutos']++;
         }
 
-        while ($horario['minutos'] >= 60)
-        {
+        while ($horario['minutos'] >= 60) {
             $horario['minutos'] = $horario['minutos'] - 60;
             $horario['horas']++;
         }
@@ -254,5 +274,12 @@ class Utilitarios
             'minutos' => $horario['minutos'],
             'segundos' => $horario['segundos']
         ];
+    }
+
+    // Evita que os minutos e segundos passem de 60
+
+    public static function calcularHorasJustificadas(Carbon $inicio, Carbon $fim)
+    {
+
     }
 }

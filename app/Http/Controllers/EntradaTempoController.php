@@ -36,8 +36,7 @@ class EntradaTempoController extends Controller
 
         $entrada = Entrada::find($id_entrada);
 
-        if ($entrada)
-        {
+        if ($entrada) {
             $entrada->fill($entrada_editada);
             $entrada->save();
 
@@ -51,8 +50,7 @@ class EntradaTempoController extends Controller
     {
         $entrada = Entrada::find($id_entrada);
 
-        if ($entrada)
-        {
+        if ($entrada) {
             $entrada->delete();
 
             return response()->json([
@@ -76,24 +74,19 @@ class EntradaTempoController extends Controller
 
         $usuario_autenticado = auth('sanctum')->user();
 
-        if (!$usuario_autenticado)
-        {
-            if (isset($dados['token']))
-            {
+        if (!$usuario_autenticado) {
+            if (isset($dados['token'])) {
                 $usuario_autenticado = TokenTemporario::where('token', $dados['token'])
                     ->first()
                     ->usuario;
             }
         }
 
-        if ($usuario_autenticado)
-        {
+        if ($usuario_autenticado) {
             $usuario = ($id_usuario && $usuario_autenticado['admin']) ? Usuario::find($id_usuario) : $usuario_autenticado;
 
-            if ($usuario)
-            {
-                if (isset($dados['data']))
-                {
+            if ($usuario) {
+                if (isset($dados['data'])) {
                     $data_inicio = Carbon::create($dados['data'])
                         ->setTimezone('America/Sao_Paulo')
                         ->startOfDay()
@@ -103,9 +96,7 @@ class EntradaTempoController extends Controller
                         ->setTimezone('America/Sao_Paulo')
                         ->startOfDay()
                         ->endOfMonth();
-                }
-                else
-                {
+                } else {
                     $data_inicio = Carbon::today()->startOfMonth();
                     $data_fim = Carbon::today()->endOfMonth();
                 }
@@ -128,16 +119,13 @@ class EntradaTempoController extends Controller
                     'dias_do_mes' => $dias_uteis
                 ];
 
-                if ($usuario['banco_horas'] > 0)
-                {
+                if ($usuario['banco_horas'] > 0) {
                     while ($usuario['banco_horas'] >= 60) {
                         $relatorio['banco_horas']['horas'] += 1;
                         $usuario['banco_horas'] -= 60;
                     }
 
-                }
-                else
-                {
+                } else {
                     while ($usuario['banco_horas'] <= -60) {
                         $relatorio['banco_horas']['horas'] -= 1;
                         $usuario['banco_horas'] += 60;
@@ -149,10 +137,11 @@ class EntradaTempoController extends Controller
                 $relatorio['saldo_mensal']['horas_totais'] = $horas_trabalhadas['horas_totais']['horas'] - $dias_uteis['horas_uteis'];
                 $relatorio['saldo_mensal']['minutos_totais'] = $horas_trabalhadas['horas_totais']['minutos'];
 
-                if (isset($dados['pdf']))
-                {
-                    if ($dados['pdf'])
-                    {
+                $relatorio['saldo_mensal']['horas_totais'] += $horas_trabalhadas['horas_justificadas']['horas'];
+                $relatorio['saldo_mensal']['minutos_totais'] += $horas_trabalhadas['horas_justificadas']['minutos'];
+
+                if (isset($dados['pdf'])) {
+                    if ($dados['pdf']) {
                         $pdf = app()->make('dompdf.wrapper');
                         $relatorio['usuario'] = $usuario;
 

@@ -24,6 +24,6 @@ services:
         environment:
             - XDEBUG_ENABLED=true
         extra_hosts:
-            - host.docker.internal:192.168.223.41
+            - host.docker.internal:192.168.1.111
         links:
             - database
