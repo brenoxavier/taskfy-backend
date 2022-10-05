@@ -30,6 +30,8 @@ WORKDIR /var/www/php
 
 COPY . .
 
+RUN chmod +rwx -R /var/www/php
+
 EXPOSE 8080
 
 ENTRYPOINT [ "/entrypoint.sh" ]
