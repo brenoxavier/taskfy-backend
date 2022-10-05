@@ -1,4 +1,4 @@
-name: Deploy in Contabo
+name: Deploy Test Environment
 
 on:
   push:
@@ -29,14 +29,14 @@ jobs:
       working-directory: ./
       run: composer install
         
-    - name: Build and push
+    - name: Build And Push
       uses: docker/build-push-action@v3
       with:
         context: .
         push: true
         tags: brenoxavier/taskfy-backend:latest
         
-    - name: Setting up environment
+    - name: Setting Up Environment
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
