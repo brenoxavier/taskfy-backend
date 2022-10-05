@@ -47,7 +47,14 @@ jobs:
           script: |
             podman stop taskfy_backend
             podman rm taskfy_backend
-            podman run --name taskfy_backend --pull=always --restart=unless-stopped --quiet -d -p 30000:8080 --network taskfy --env-file=./taskfy.env docker.io/brenoxavier/taskfy-backend:latest
+            podman run --quiet -d
+              --name taskfy_backend \
+              --pull=always \
+              --restart=unless-stopped \
+              -p 30000:8080 \
+              --network taskfy \
+              --env-file=./taskfy.env \
+              docker.io/brenoxavier/taskfy-backend:latest
             podman exec taskfy_backend php artisan migrate --force
 
 #  sonarqube:
