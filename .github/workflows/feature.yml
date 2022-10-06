@@ -47,5 +47,5 @@ jobs:
           script: |
             podman stop taskfy_backend
             podman rm taskfy_backend
-            podman run --name taskfy_backend --pull=always --restart=unless-stopped --quiet -d -p 30000:8080 --network taskfy -m=512m --env-file=taskfy.env -v ./docker/volumes/taskfy/backend/logs:/var/www/php/storage/logs docker.io/brenoxavier/taskfy-backend:latest
+            podman run --name taskfy_backend --pull=always --restart=unless-stopped --quiet -d -p 30000:8080 --network taskfy --env-file=./taskfy.env -v ./docker/volumes/taskfy/backend/logs:/var/www/php/storage/logs docker.io/brenoxavier/taskfy-backend:latest
             podman exec taskfy_backend php artisan migrate --force
