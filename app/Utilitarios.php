@@ -284,7 +284,10 @@ class Utilitarios
     public static function getEnvironmentVariable(string $key, string $default = null)
     {
         $variavel = getenv($key) ? getenv($key) : env($key, $default);
-        logger("$key=$variavel");
+
+        if ($key === 'APP_KEY') {
+            dd($variavel);
+        }
 
         return $variavel;
     }
