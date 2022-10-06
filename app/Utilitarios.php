@@ -283,6 +283,6 @@ class Utilitarios
 
     public static function getEnvironmentVariable(string $key, string $default = null)
     {
-        return getenv($key) ? getenv($key) : Utilitarios::getEnvironmentVariable($key, $default);
+        return getenv($key) ? getenv($key) : env($key, $default);
     }
 }
