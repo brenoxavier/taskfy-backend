@@ -1,5 +1,7 @@
 <?php
 
+include_once "helper.php";
+
 return [
 
     /*
@@ -15,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'null'),
+    'default' => getEnvironmentVariable('BROADCAST_DRIVER', 'null'),
 
     /*
     |--------------------------------------------------------------------------

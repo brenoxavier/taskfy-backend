@@ -1,5 +1,7 @@
 <?php
 
+include_once "helper.php";
+
 return [
 
     /*
@@ -13,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => getEnvironmentVariable('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => getEnvironmentVariable('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)getEnvironmentVariable('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +54,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => getEnvironmentVariable('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -119,7 +121,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => getEnvironmentVariable('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
 

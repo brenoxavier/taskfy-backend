@@ -1,7 +1,9 @@
 <?php
 
+include_once "helper.php";
+
 return [
-    'api_key' => env('CLOCKIFY_API_KEY'),
-    'workspace_id' => env('CLOCKIFY_WORKSPACE_ID'),
-    'api_url' => env('CLOCKIFY_API_URL')
+    'api_key' => getEnvironmentVariable('CLOCKIFY_API_KEY'),
+    'workspace_id' => getEnvironmentVariable('CLOCKIFY_WORKSPACE_ID'),
+    'api_url' => getEnvironmentVariable('CLOCKIFY_API_URL')
 ];
