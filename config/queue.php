@@ -1,6 +1,6 @@
 <?php
 
-include_once "helper.php";
+use App\Utilitarios;
 
 return [
 
@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => getEnvironmentVariable('QUEUE_CONNECTION', 'sync'),
+    'default' => Utilitarios::getEnvironmentVariable('QUEUE_CONNECTION', 'sync'),
 
     /*
     |--------------------------------------------------------------------------
@@ -88,7 +88,7 @@ return [
 
     'failed' => [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
-        'database' => getEnvironmentVariable('DB_CONNECTION', 'mysql'),
+        'database' => Utilitarios::getEnvironmentVariable('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
 

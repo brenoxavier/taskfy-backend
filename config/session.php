@@ -1,7 +1,6 @@
 <?php
 
-include_once "helper.php";
-
+use App\Utilitarios;
 use Illuminate\Support\Str;
 
 return [
@@ -20,7 +19,7 @@ return [
     |
     */
 
-    'driver' => getEnvironmentVariable('SESSION_DRIVER', 'file'),
+    'driver' => Utilitarios::getEnvironmentVariable('SESSION_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -33,7 +32,7 @@ return [
     |
     */
 
-    'lifetime' => getEnvironmentVariable('SESSION_LIFETIME', 120),
+    'lifetime' => Utilitarios::getEnvironmentVariable('SESSION_LIFETIME', 120),
 
     'expire_on_close' => false,
 
@@ -130,7 +129,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(getEnvironmentVariable('APP_NAME', 'laravel'), '_') . '_session'
+        Str::slug(Utilitarios::getEnvironmentVariable('APP_NAME', 'laravel'), '_') . '_session'
     ),
 
     /*

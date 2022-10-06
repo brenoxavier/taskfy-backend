@@ -1,9 +1,9 @@
 <?php
 
-include_once "helper.php";
+use App\Utilitarios;
 
 return [
-    'api_key' => getEnvironmentVariable('FERIADO_API_KEY'),
-    'api_url' => getEnvironmentVariable('FERIADO_API_URL'),
-    'cidade_ibge' => getEnvironmentVariable('FERIADO_CIDADE_IBGE'),
+    'api_key' => Utilitarios::getEnvironmentVariable('FERIADO_API_KEY'),
+    'api_url' => Utilitarios::getEnvironmentVariable('FERIADO_API_URL'),
+    'cidade_ibge' => Utilitarios::getEnvironmentVariable('FERIADO_CIDADE_IBGE'),
 ];

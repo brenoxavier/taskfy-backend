@@ -1,6 +1,6 @@
 <?php
 
-include_once "helper.php";
+use App\Utilitarios;
 
 return [
 
@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => getEnvironmentVariable('BROADCAST_DRIVER', 'null'),
+    'default' => Utilitarios::getEnvironmentVariable('BROADCAST_DRIVER', 'null'),
 
     /*
     |--------------------------------------------------------------------------

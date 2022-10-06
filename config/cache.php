@@ -1,7 +1,6 @@
 <?php
 
-include_once "helper.php";
-
+use App\Utilitarios;
 use Illuminate\Support\Str;
 
 return [
@@ -17,7 +16,7 @@ return [
     |
     */
 
-    'default' => getEnvironmentVariable('CACHE_DRIVER', 'file'),
+    'default' => Utilitarios::getEnvironmentVariable('CACHE_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -107,6 +106,6 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(getEnvironmentVariable('APP_NAME', 'laravel'), '_') . '_cache'),
+    'prefix' => env('CACHE_PREFIX', Str::slug(Utilitarios::getEnvironmentVariable('APP_NAME', 'laravel'), '_') . '_cache'),
 
 ];

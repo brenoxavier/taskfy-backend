@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App;
-
 
 use App\Models\Feriado;
 use App\Models\Usuario;
@@ -281,5 +279,10 @@ class Utilitarios
     public static function calcularHorasJustificadas(Carbon $inicio, Carbon $fim)
     {
 
+    }
+
+    public static function getEnvironmentVariable(string $key, string $default = null)
+    {
+        return getenv($key) ? getenv($key) : env($key, $default);
     }
 }

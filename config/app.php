@@ -1,6 +1,6 @@
 <?php
 
-include_once "helper.php";
+use App\Utilitarios;
 
 return [
 
@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => getEnvironmentVariable('APP_NAME', 'Laravel'),
+    'name' => Utilitarios::getEnvironmentVariable('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'env' => getEnvironmentVariable('APP_ENV', 'production'),
+    'env' => Utilitarios::getEnvironmentVariable('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool)getEnvironmentVariable('APP_DEBUG', false),
+    'debug' => (bool)Utilitarios::getEnvironmentVariable('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'url' => getEnvironmentVariable('APP_URL', 'http://localhost'),
+    'url' => Utilitarios::getEnvironmentVariable('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -121,7 +121,7 @@ return [
     |
     */
 
-    'key' => getEnvironmentVariable('APP_KEY'),
+    'key' => Utilitarios::getEnvironmentVariable('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
 

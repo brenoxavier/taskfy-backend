@@ -1,6 +1,6 @@
 <?php
 
-include_once "helper.php";
+use App\Utilitarios;
 
 return [
 
@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => getEnvironmentVariable('FILESYSTEM_DRIVER', 'local'),
+    'default' => Utilitarios::getEnvironmentVariable('FILESYSTEM_DRIVER', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => getEnvironmentVariable('APP_URL') . '/storage',
+            'url' => Utilitarios::getEnvironmentVariable('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
