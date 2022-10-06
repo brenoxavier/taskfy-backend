@@ -46,13 +46,13 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'key' => Utilitarios::getEnvironmentVariable('AWS_ACCESS_KEY_ID'),
+            'secret' => Utilitarios::getEnvironmentVariable('AWS_SECRET_ACCESS_KEY'),
+            'region' => Utilitarios::getEnvironmentVariable('AWS_DEFAULT_REGION'),
+            'bucket' => Utilitarios::getEnvironmentVariable('AWS_BUCKET'),
+            'url' => Utilitarios::getEnvironmentVariable('AWS_URL'),
+            'endpoint' => Utilitarios::getEnvironmentVariable('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => Utilitarios::getEnvironmentVariable('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
     ],

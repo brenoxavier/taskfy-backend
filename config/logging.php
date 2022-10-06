@@ -57,7 +57,7 @@ return [
 
         'slack' => [
             'driver' => 'slack',
-            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+            'url' => Utilitarios::getEnvironmentVariable('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => Utilitarios::getEnvironmentVariable('LOG_LEVEL', 'critical'),
@@ -68,8 +68,8 @@ return [
             'level' => Utilitarios::getEnvironmentVariable('LOG_LEVEL', 'debug'),
             'handler' => SyslogUdpHandler::class,
             'handler_with' => [
-                'host' => env('PAPERTRAIL_URL'),
-                'port' => env('PAPERTRAIL_PORT'),
+                'host' => Utilitarios::getEnvironmentVariable('PAPERTRAIL_URL'),
+                'port' => Utilitarios::getEnvironmentVariable('PAPERTRAIL_PORT'),
             ],
         ],
 
@@ -77,7 +77,7 @@ return [
             'driver' => 'monolog',
             'level' => Utilitarios::getEnvironmentVariable('LOG_LEVEL', 'debug'),
             'handler' => StreamHandler::class,
-            'formatter' => env('LOG_STDERR_FORMATTER'),
+            'formatter' => Utilitarios::getEnvironmentVariable('LOG_STDERR_FORMATTER'),
             'with' => [
                 'stream' => 'php://stderr',
             ],

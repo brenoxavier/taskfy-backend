@@ -34,18 +34,18 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
+            'key' => Utilitarios::getEnvironmentVariable('PUSHER_APP_KEY'),
+            'secret' => Utilitarios::getEnvironmentVariable('PUSHER_APP_SECRET'),
+            'app_id' => Utilitarios::getEnvironmentVariable('PUSHER_APP_ID'),
             'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'cluster' => Utilitarios::getEnvironmentVariable('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
             ],
         ],
 
         'ably' => [
             'driver' => 'ably',
-            'key' => env('ABLY_KEY'),
+            'key' => Utilitarios::getEnvironmentVariable('ABLY_KEY'),
         ],
 
         'redis' => [

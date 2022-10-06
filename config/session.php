@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION', null),
+    'connection' => Utilitarios::getEnvironmentVariable('SESSION_CONNECTION', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -101,7 +101,7 @@ return [
     |
     */
 
-    'store' => env('SESSION_STORE', null),
+    'store' => Utilitarios::getEnvironmentVariable('SESSION_STORE', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -127,7 +127,7 @@ return [
     |
     */
 
-    'cookie' => env(
+    'cookie' => Utilitarios::getEnvironmentVariable(
         'SESSION_COOKIE',
         Str::slug(Utilitarios::getEnvironmentVariable('APP_NAME', 'laravel'), '_') . '_session'
     ),
@@ -156,7 +156,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => Utilitarios::getEnvironmentVariable('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +169,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => Utilitarios::getEnvironmentVariable('SESSION_SECURE_COOKIE'),
 
     /*
     |--------------------------------------------------------------------------

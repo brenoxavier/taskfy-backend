@@ -29,7 +29,7 @@ return [
     */
 
     'bcrypt' => [
-        'rounds' => env('BCRYPT_ROUNDS', 10),
+        'rounds' => Utilitarios::getEnvironmentVariable('BCRYPT_ROUNDS', 10),
     ],
 
     /*

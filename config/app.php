@@ -56,7 +56,7 @@ return [
 
     'url' => Utilitarios::getEnvironmentVariable('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL', null),
+    'asset_url' => Utilitarios::getEnvironmentVariable('ASSET_URL', null),
 
     /*
     |--------------------------------------------------------------------------

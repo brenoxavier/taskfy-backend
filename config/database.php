@@ -38,21 +38,21 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'url' => env('DATABASE_URL'),
+            'url' => Utilitarios::getEnvironmentVariable('DATABASE_URL'),
             'database' => Utilitarios::getEnvironmentVariable('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'foreign_key_constraints' => Utilitarios::getEnvironmentVariable('DB_FOREIGN_KEYS', true),
         ],
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
+            'url' => Utilitarios::getEnvironmentVariable('DATABASE_URL'),
             'host' => Utilitarios::getEnvironmentVariable('DB_HOST', '127.0.0.1'),
             'port' => Utilitarios::getEnvironmentVariable('DB_PORT', '3306'),
             'database' => Utilitarios::getEnvironmentVariable('DB_DATABASE', 'forge'),
             'username' => Utilitarios::getEnvironmentVariable('DB_USERNAME', 'forge'),
             'password' => Utilitarios::getEnvironmentVariable('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
+            'unix_socket' => Utilitarios::getEnvironmentVariable('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
@@ -60,13 +60,13 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                PDO::MYSQL_ATTR_SSL_CA => Utilitarios::getEnvironmentVariable('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DATABASE_URL'),
+            'url' => Utilitarios::getEnvironmentVariable('DATABASE_URL'),
             'host' => Utilitarios::getEnvironmentVariable('DB_HOST', '127.0.0.1'),
             'port' => Utilitarios::getEnvironmentVariable('DB_PORT', '5432'),
             'database' => Utilitarios::getEnvironmentVariable('DB_DATABASE', 'forge'),
@@ -81,7 +81,7 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'url' => env('DATABASE_URL'),
+            'url' => Utilitarios::getEnvironmentVariable('DATABASE_URL'),
             'host' => Utilitarios::getEnvironmentVariable('DB_HOST', 'localhost'),
             'port' => Utilitarios::getEnvironmentVariable('DB_PORT', '1433'),
             'database' => Utilitarios::getEnvironmentVariable('DB_DATABASE', 'forge'),
@@ -120,27 +120,27 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => Utilitarios::getEnvironmentVariable('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
-            'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(Utilitarios::getEnvironmentVariable('APP_NAME', 'laravel'), '_') . '_database_'),
+            'cluster' => Utilitarios::getEnvironmentVariable('REDIS_CLUSTER', 'redis'),
+            'prefix' => Utilitarios::getEnvironmentVariable('REDIS_PREFIX', Str::slug(Utilitarios::getEnvironmentVariable('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '0'),
+            'url' => Utilitarios::getEnvironmentVariable('REDIS_URL'),
+            'host' => Utilitarios::getEnvironmentVariable('REDIS_HOST', '127.0.0.1'),
+            'password' => Utilitarios::getEnvironmentVariable('REDIS_PASSWORD', null),
+            'port' => Utilitarios::getEnvironmentVariable('REDIS_PORT', '6379'),
+            'database' => Utilitarios::getEnvironmentVariable('REDIS_DB', '0'),
         ],
 
         'cache' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '1'),
+            'url' => Utilitarios::getEnvironmentVariable('REDIS_URL'),
+            'host' => Utilitarios::getEnvironmentVariable('REDIS_HOST', '127.0.0.1'),
+            'password' => Utilitarios::getEnvironmentVariable('REDIS_PASSWORD', null),
+            'port' => Utilitarios::getEnvironmentVariable('REDIS_PORT', '6379'),
+            'database' => Utilitarios::getEnvironmentVariable('REDIS_CACHE_DB', '1'),
         ],
 
     ],

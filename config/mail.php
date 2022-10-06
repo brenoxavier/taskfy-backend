@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => Utilitarios::getEnvironmentVariable('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => Utilitarios::getEnvironmentVariable('MAIL_HOST', 'smtp.mailgun.org'),
+            'port' => Utilitarios::getEnvironmentVariable('MAIL_PORT', 587),
+            'encryption' => Utilitarios::getEnvironmentVariable('MAIL_ENCRYPTION', 'tls'),
+            'username' => Utilitarios::getEnvironmentVariable('MAIL_USERNAME'),
+            'password' => Utilitarios::getEnvironmentVariable('MAIL_PASSWORD'),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -64,7 +64,7 @@ return [
 
         'log' => [
             'transport' => 'log',
-            'channel' => env('MAIL_LOG_CHANNEL'),
+            'channel' => Utilitarios::getEnvironmentVariable('MAIL_LOG_CHANNEL'),
         ],
 
         'array' => [
@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => Utilitarios::getEnvironmentVariable('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => Utilitarios::getEnvironmentVariable('MAIL_FROM_NAME', 'Example'),
     ],
 
     /*
