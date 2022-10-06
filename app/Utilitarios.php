@@ -7,7 +7,6 @@ use App\Models\Usuario;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Exception;
-use Illuminate\Support\Facades\Log;
 
 class Utilitarios
 {
@@ -285,8 +284,7 @@ class Utilitarios
     public static function getEnvironmentVariable(string $key, string $default = null)
     {
         $variavel = getenv($key) ? getenv($key) : env($key, $default);
-
-        Log::info("$key=$variavel");
+        logger("$key=$variavel");
 
         return $variavel;
     }
