@@ -11,6 +11,7 @@ RUN apt-get update && \
     php7.4-fpm \
     php-curl \
     php-xml \
+    php-gd \
     php-pgsql \
     build-essential \
     libpng-dev \
