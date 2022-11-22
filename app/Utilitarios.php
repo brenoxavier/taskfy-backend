@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Entrada;
 use App\Models\Feriado;
 use App\Models\Usuario;
 use Carbon\Carbon;
@@ -274,15 +275,22 @@ class Utilitarios
         ];
     }
 
-    // Evita que os minutos e segundos passem de 60
-
-    public static function calcularHorasJustificadas(Carbon $inicio, Carbon $fim)
-    {
-
-    }
-
     public static function getEnvironmentVariable(string $key, string $default = null)
     {
         return getenv($key) ? getenv($key) : env($key, $default);
+    }
+
+    public static function insertOrUpdateTimeEntry(Usuario $user, $time_entry)
+    {
+        $new_time_entry = [
+            'id_usuario' => $user['id'],
+            'id_entrada' => $time_entry['id'],
+            'inicio' => Carbon::create($time_entry['timeInterval']['start'])->setTimezone('America/Sao_Paulo'),
+            'fim' => $time_entry['timeInterval']['end'] ? Carbon::create($time_entry['timeInterval']['end'])->setTimezone('America/Sao_Paulo') : null
+        ];
+
+        Entrada::updateOrCreate([
+            'id_entrada' => $time_entry['id']
+        ], $new_time_entry);
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('autenticar', [AuthController::class, 'autenticar']);
 Route::get('relatorio/{id_usuario?}', [EntradaTempoController::class, 'relatorio']);
+Route::post('clockify/atualizar', [ClockifyController::class, 'atualizar']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(Ativo::class)->group(function () {

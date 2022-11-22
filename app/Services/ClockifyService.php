@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Entrada;
 use App\Models\Usuario;
+use App\Utilitarios;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -23,20 +23,9 @@ class ClockifyService
                 'start' => $dataInicio->toISOString()
             ]);
 
-            if ($resposta->successful())
-            {
-                foreach ($resposta->json() as $entradaTempo)
-                {
-                    $novaEntrada = [
-                        'id_usuario' => $user['id'],
-                        'id_entrada' => $entradaTempo['id'],
-                        'inicio' => Carbon::create($entradaTempo['timeInterval']['start'])->setTimezone('America/Sao_Paulo'),
-                        'fim' => $entradaTempo['timeInterval']['end'] ? Carbon::create($entradaTempo['timeInterval']['end'])->setTimezone('America/Sao_Paulo') : null
-                    ];
-
-                    Entrada::updateOrCreate([
-                        'id_entrada' => $entradaTempo['id']
-                    ], $novaEntrada);
+            if ($resposta->successful()) {
+                foreach ($resposta->json() as $entradaTempo) {
+                    Utilitarios::insertOrUpdateTimeEntry($user, $entradaTempo);
                 }
             }
         }
