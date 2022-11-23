@@ -24,8 +24,7 @@ class Kernel extends ConsoleKernel
             $usuarios = Usuario::where('ativo', true)
                 ->get();
 
-            foreach ($usuarios as $usuario)
-            {
+            foreach ($usuarios as $usuario) {
                 $horas_trabalhadas = Utilitarios::calcularHorasTrabalhadas($usuario, Carbon::today());
                 $usuario['banco_horas'] += ($horas_trabalhadas['horas_totais'] - $usuario['carga_horaria']) * 60 + $horas_trabalhadas['minutos_totais'];
                 $usuario->save();
@@ -39,7 +38,7 @@ class Kernel extends ConsoleKernel
 
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -41,23 +41,23 @@ class ClockifyController extends Controller
 
         switch ($event_type) {
             case 'NEW_TIMER_STARTED':
-                $environment_secret = env('CLOCKIFY_TIMER_STARDED_SECRET');
+                $environment_secret = Utilitarios::getEnvironmentVariable('CLOCKIFY_TIMER_STARDED_SECRET');
                 break;
 
             case 'TIMER_STOPPED':
-                $environment_secret = env('CLOCKIFY_TIMER_STOPPED_SECRET');
+                $environment_secret = Utilitarios::getEnvironmentVariable('CLOCKIFY_TIMER_STOPPED_SECRET');
                 break;
 
             case 'NEW_TIME_ENTRY':
-                $environment_secret = env('CLOCKIFY_TIMER_ENTRY_CREATED_SECRET');
+                $environment_secret = Utilitarios::getEnvironmentVariable('CLOCKIFY_TIMER_ENTRY_CREATED_SECRET');
                 break;
 
             case 'TIME_ENTRY_UPDATED':
-                $environment_secret = env('CLOCKIFY_TIMER_ENTRY_UPDATED_SECRET');
+                $environment_secret = Utilitarios::getEnvironmentVariable('CLOCKIFY_TIMER_ENTRY_UPDATED_SECRET');
                 break;
 
             case 'TIME_ENTRY_DELETED':
-                $environment_secret = env('CLOCKIFY_TIMER_ENTRY_DELETED_SECRET');
+                $environment_secret = Utilitarios::getEnvironmentVariable('CLOCKIFY_TIMER_ENTRY_DELETED_SECRET');
                 break;
         }
 

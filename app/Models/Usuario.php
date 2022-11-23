@@ -7,9 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static where(string $string, bool $true)
+ */
 class Usuario extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
     protected $fillable = [
         'id_clockify',
         'nome',
